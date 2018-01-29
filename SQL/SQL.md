@@ -1,4 +1,4 @@
-![Screen Shot 2018-01-27 at 9.29.36 PM](/Users/chenm/Desktop/Screen Shot 2018-01-27 at 9.29.36 PM.png)
+E![Screen Shot 2018-01-27 at 9.29.36 PM](/Users/chenm/Desktop/Screen Shot 2018-01-27 at 9.29.36 PM.png)
 
 ## SQL 语句
 
@@ -209,3 +209,129 @@ UPDATE Person SET FirstName = 'Fred' WHERE LastName = 'Wilson'
 DELETE FROM 表名称 WHERE 列名称 = 值
 DELETE FROM Person WHERE LastName = 'Wilson' 
 ```
+
+#### TOP
+
+```
+SELECT TOP number|percent column_name(s)
+FROM table_name
+```
+
+###### MySQL 和 Oracle 中的 SQL SELECT TOP 是等价的
+
+```
+SELECT *
+FROM Persons
+LIMIT 5
+```
+
+#### LIKE
+
+```
+SELECT column_name(s)
+FROM table_name
+WHERE column_name LIKE pattern
+```
+
+从 "Persons" 表中选取居住在包含 "lon" 的城市里的人
+
+```
+SELECT * FROM Persons
+WHERE City LIKE '%lon%'
+```
+
+##### SQL 通配符
+
+在搜索数据库中的数据时，SQL 通配符可以替代一个或多个字符。
+
+SQL 通配符必须与 LIKE 运算符一起使用。
+
+在 SQL 中，可使用以下通配符
+
+| 通配符                      | 描述            |
+| ------------------------ | ------------- |
+| %                        | 替代一个或多个字符     |
+| _                        | 仅替代一个字符       |
+| [charlist]               | 字符列中的任何单一字符   |
+| [^charlist]或者[!charlist] | 不在字符列中的任何单一字符 |
+
+现在，我们希望从上面的 "Persons" 表中选取居住的城市以 "A" 或 "L" 或 "N" 开头的人：
+
+我们可以使用下面的 SELECT 语句：
+
+```
+SELECT * FROM Persons
+WHERE City LIKE '[ALN]%'
+```
+
+#### SELECT IN 允许我们在 WHERE 子句中规定多个值。
+
+```
+SELECT column_name(s)
+FROM table_name
+WHERE column_name IN (value1,value2,...)
+```
+
+#### SELECT BETWEEN 操作符在 WHERE 子句中使用，作用是选取介于两个值之间的数据范围
+
+```
+SELECT column_name(s)
+FROM table_name
+WHERE column_name
+BETWEEN value1 AND value2
+```
+
+###### **重要事项：不同的数据库对 BETWEEN...AND 操作符的处理方式是有差异的。某些数据库会列出介于 "Adams" 和 "Carter" 之间的人，但不包括 "Adams" 和 "Carter" ；某些数据库会列出介于 "Adams" 和 "Carter" 之间并包括 "Adams" 和 "Carter" 的人；而另一些数据库会列出介于 "Adams" 和 "Carter" 之间的人，包括 "Adams" ，但不包括 "Carter" 。所以，请检查你的数据库是如何处理 BETWEEN....AND 操作符的！**
+
+##### 表的 SQL Alias 语法
+
+```
+SELECT column_name(s)
+FROM table_name
+AS alias_name
+```
+
+##### 列的 SQL Alias 语法
+
+```
+SELECT column_name AS alias_name
+FROM table_name
+```
+
+e.g.
+
+```
+SELECT po.OrderID, p.LastName, p.FirstName
+FROM Persons AS p, Product_Orders AS po
+WHERE p.LastName='Adams' AND p.FirstName='John'
+```
+
+#### SELECT JOIN
+
+##### Join 和 Key
+
+有时为了得到完整的结果，我们需要从两个或更多的表中获取结果。我们就需要执行 join。
+
+数据库中的表可通过键将彼此联系起来。主键（Primary Key）是一个列，在这个列中的每一行的值都是唯一的。在表中，每个主键的值都是唯一的。这样做的目的是在不重复每个表中的所有数据的情况下，把表间的数据交叉捆绑在一起。
+
+| Id_P | LastName | FirstName | Address        | City     |
+| ---- | -------- | --------- | -------------- | -------- |
+| 1    | Adams    | John      | Oxford Street  | London   |
+| 2    | Bush     | George    | Fifth Avenue   | New York |
+| 3    | Carter   | Thomas    | Changan Street | Beijing  |
+
+请注意，"Id_P" 列是 Persons 表中的的主键。这意味着没有两行能够拥有相同的 Id_P。即使两个人的姓名完全相同，Id_P 也可以区分他们。
+
+接下来请看 "Orders" 表：
+
+| Id_O | OrderNo | Id_P |
+| ---- | ------- | ---- |
+| 1    | 77895   | 3    |
+| 2    | 44678   | 3    |
+| 3    | 22456   | 1    |
+| 4    | 24562   | 1    |
+| 5    | 34764   | 65   |
+
+请注意，"Id_O" 列是 Orders 表中的的主键，同时，"Orders" 表中的 "Id_P" 列用于引用 "Persons" 表中的人，而无需使用他们的确切姓名。
+
+请留意，"Id_P" 列把上面的两个表联系了起来。
