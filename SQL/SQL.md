@@ -335,3 +335,20 @@ WHERE p.LastName='Adams' AND p.FirstName='John'
 请注意，"Id_O" 列是 Orders 表中的的主键，同时，"Orders" 表中的 "Id_P" 列用于引用 "Persons" 表中的人，而无需使用他们的确切姓名。
 
 请留意，"Id_P" 列把上面的两个表联系了起来。
+
+
+
+
+
+left join
+
+`select name, bonus from Employee left join Bonus`
+
+` on Employee.empId = Bonus.empId`
+`where bonus < 1000 or bonus is NULL`
+
+
+
+`
+
+inner join
