@@ -1,6 +1,6 @@
-```
+
 ![SQL cheatsheet](https://zeroturnaround.com/wp-content/uploads/2016/06/RebelLabs-SQL-cheat-sheet.png)
-```
+
 
 Note from
 
