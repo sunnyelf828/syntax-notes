@@ -1,5 +1,9 @@
 E![Screen Shot 2018-01-27 at 9.29.36 PM](/Users/chenm/Desktop/Screen Shot 2018-01-27 at 9.29.36 PM.png)
 
+Note from
+
+http://www.w3school.com.cn/sql/index.asp
+
 ## SQL 语句
 
 | 语句                                       | 语法                                       |
@@ -103,6 +107,8 @@ SQL 中最重要的 DDL 语句:
 - *CREATE INDEX* - 创建索引（搜索键）
 - *DROP INDEX* - 删除索引
 
+
+
 #### SELECT DISTINCT
 
 选取唯一不同值
@@ -110,6 +116,8 @@ SQL 中最重要的 DDL 语句:
 ```
 SELECT DISTINCT Company FROM Orders 
 ```
+
+
 
 #### SELECT … WHERE
 
@@ -146,6 +154,8 @@ SELECT * FROM Persons WHERE Year>1965
 SELECT * FROM Persons WHERE Year>'1965'
 ```
 
+
+
 #### AND / OR
 
 ```SELECT * FROM Persons WHERE firstname=&#39;Thomas&#39; OR lastname=&#39;Carter&#39;
@@ -160,6 +170,8 @@ SELECT * FROM Persons WHERE firstname='Thomas' OR lastname='Carter'
 SELECT * FROM Persons WHERE (FirstName='Thomas' OR FirstName='William')
 AND LastName='Carter'
 ```
+
+
 
 #### ORDER BY 
 
@@ -196,6 +208,8 @@ INSERT INTO 表名称 VALUES (值1, 值2,....)
 INSERT INTO table_name (列1, 列2,...) VALUES (值1, 值2,....)
 ```
 
+
+
 #### UPDATE
 
 ```
@@ -203,12 +217,16 @@ UPDATE 表名称 SET 列名称 = 新值 WHERE 列名称 = 某值
 UPDATE Person SET FirstName = 'Fred' WHERE LastName = 'Wilson' 
 ```
 
+
+
 #### DELETE
 
 ```
 DELETE FROM 表名称 WHERE 列名称 = 值
 DELETE FROM Person WHERE LastName = 'Wilson' 
 ```
+
+
 
 #### TOP
 
@@ -224,6 +242,8 @@ SELECT *
 FROM Persons
 LIMIT 5
 ```
+
+
 
 #### LIKE
 
@@ -264,6 +284,8 @@ SELECT * FROM Persons
 WHERE City LIKE '[ALN]%'
 ```
 
+
+
 #### SELECT IN 允许我们在 WHERE 子句中规定多个值。
 
 ```
@@ -271,6 +293,8 @@ SELECT column_name(s)
 FROM table_name
 WHERE column_name IN (value1,value2,...)
 ```
+
+
 
 #### SELECT BETWEEN 操作符在 WHERE 子句中使用，作用是选取介于两个值之间的数据范围
 
@@ -306,6 +330,8 @@ FROM Persons AS p, Product_Orders AS po
 WHERE p.LastName='Adams' AND p.FirstName='John'
 ```
 
+
+
 #### SELECT JOIN
 
 ##### Join 和 Key
@@ -336,19 +362,324 @@ WHERE p.LastName='Adams' AND p.FirstName='John'
 
 请留意，"Id_P" 列把上面的两个表联系了起来。
 
+##### 引用两个表
+
+方法一：我们可以通过引用两个表的方式，从两个表中获取数据：
+
+谁订购了产品，并且他们订购了什么产品？
+
+```
+SELECT Persons.LastName, Persons.FirstName, Orders.OrderNo
+FROM Persons, Orders
+WHERE Persons.Id_P = Orders.Id_P 
+```
+
+方法二：**JOIN**
+
+如果我们希望列出所有人的定购，可以使用下面的 SELECT 语句：
+
+```
+SELECT Persons.LastName, Persons.FirstName, Orders.OrderNo
+FROM Persons
+INNER JOIN Orders
+ON Persons.Id_P = Orders.Id_P
+ORDER BY Persons.LastName
+```
+
+
+
+##### 不同的 SQL JOIN
+
+除了我们在上面的例子中使用的 INNER JOIN（内连接），我们还可以使用其他几种连接。
+
+下面列出了您可以使用的 JOIN 类型，以及它们之间的差异。
+
+- ***INNER JOIN***(和JOIN是相同的): 如果表中有至少一个匹配，则返回行 **inner join是求交集**
+- ***LEFT JOIN***: 即使右表中没有匹配，也从左表返回所有的行
+- ***RIGHT JOIN***: 即使左表中没有匹配，也从右表返回所有的行
+- ***FULL JOIN***: 只要其中一个表中存在匹配，就返回行 **full outer join 是求并集**
+
+
+
+#### SQL UNION
+
+UNION 操作符用于合并两个或多个 SELECT 语句的结果集。
+
+请注意，UNION 内部的 SELECT 语句必须拥有相同数量的列。列也必须拥有相似的数据类型。同时，每条 SELECT 语句中的列的顺序必须相同
+
+默认地，UNION 操作符选取不同的值。如果允许重复的值，请使用 UNION ALL。
+
+```
+SELECT E_Name FROM Employees_China
+UNION
+SELECT E_Name FROM Employees_USA
+```
+
+
+
+#### **SELECT INTO**
+
+SELECT INTO 语句从一个表中选取数据，然后把**数据插入另一个表**中。
+
+SELECT INTO 语句常用于**创建**表的备份复件或者用于对记录进行存档。
+
+```
+SELECT LastName,FirstName
+INTO Persons_backup
+FROM Persons
+```
+
+
+
+#### CREATE 
+
+CREATE DATABASE 用于创建数据库。
+
+```
+CREATE DATABASE 数据库名称
+```
+
+而创建一个数据库中的表：
+
+```
+CREATE TABLE 表名称
+(
+列名称1 数据类型,
+列名称2 数据类型,
+.......
+)
+
+CREATE TABLE Person 
+(
+LastName varchar,
+FirstName varchar,
+Address varchar,
+Age int
+) 
+```
 
 
 
 
-left join
 
-`select name, bonus from Employee left join Bonus`
+#### SQL 约束
 
-` on Employee.empId = Bonus.empId`
-`where bonus < 1000 or bonus is NULL`
+约束用于限制加入表的数据的类型。
+
+可以在创建表时规定约束（通过 CREATE TABLE 语句），或者在表创建之后也可以（通过 ALTER TABLE 语句）。
+
+我们将主要探讨以下几种约束：
+
+- NOT NULL
+- UNIQUE
+- PRIMARY KEY
+- FOREIGN KEY
+- CHECK
+- DEFAULT
+
+##### SQL UNIQUE 约束
+
+UNIQUE 约束唯一标识数据库表中的每条记录。
+
+UNIQUE 和 PRIMARY KEY 约束均为列或列集合提供了唯一性的保证。
+
+PRIMARY KEY 拥有自动定义的 UNIQUE 约束。
+
+请注意，每个表可以有多个 UNIQUE 约束，但是每个表只能有一个 PRIMARY KEY 约束。
+
+##### SQL PRIMARY KEY 约束
+
+PRIMARY KEY 约束唯一标识数据库表中的每条记录。
+
+主键必须包含唯一的值。
+
+主键列不能包含 NULL 值。
+
+每个表都应该有一个主键，并且每个表只能有一个主键。
+
+##### SQL FOREIGN KEY 约束
+
+一个表中的 FOREIGN KEY 指向另一个表中的 PRIMARY KEY。
+
+FOREIGN KEY 约束用于预防破坏表之间连接的动作。
+
+FOREIGN KEY 约束也能防止非法数据插入外键列，因为它必须是它指向的那个表中的值之一。
+
+##### SQL CHECK 约束
+
+CHECK 约束用于限制列中的值的范围。
+
+如果对单个列定义 CHECK 约束，那么该列只允许特定的值。
+
+如果对一个表定义 CHECK 约束，那么此约束会在特定的列中对值进行限制。
+
+##### SQL DEFAULT 约束
+
+DEFAULT 约束用于向列中插入默认值。
+
+如果没有规定其他的值，那么会将默认值添加到所有的新记录。
 
 
 
-`
+#### CREATE INDEX 
 
-inner join
+##### 语句用于在表中创建索引。
+
+在不读取整个表的情况下，索引使数据库应用程序可以更快地查找数据。
+
+
+
+#### **通过使用 DROP 语句，可以轻松地删除索引、表和数据库**
+
+
+
+#### ALTER TABLE 语句
+
+ALTER TABLE 语句用于在已有的表中添加、修改或删除列。
+
+
+
+#### Date
+
+下面的表格列出了 MySQL 中最重要的内建日期函数：
+
+| 函数                                       | 描述                 |
+| ---------------------------------------- | ------------------ |
+| [NOW()](http://www.w3school.com.cn/sql/func_now.asp) | 返回当前的日期和时间         |
+| [CURDATE()](http://www.w3school.com.cn/sql/func_curdate.asp) | 返回当前的日期            |
+| [CURTIME()](http://www.w3school.com.cn/sql/func_curtime.asp) | 返回当前的时间            |
+| [DATE()](http://www.w3school.com.cn/sql/func_date.asp) | 提取日期或日期/时间表达式的日期部分 |
+| [EXTRACT()](http://www.w3school.com.cn/sql/func_extract.asp) | 返回日期/时间按的单独部分      |
+| [DATE_ADD()](http://www.w3school.com.cn/sql/func_date_add.asp) | 给日期添加指定的时间间隔       |
+| [DATE_SUB()](http://www.w3school.com.cn/sql/func_date_sub.asp) | 从日期减去指定的时间间隔       |
+| [DATEDIFF()](http://www.w3school.com.cn/sql/func_datediff_mysql.asp) | 返回两个日期之间的天数        |
+| [DATE_FORMAT()](http://www.w3school.com.cn/sql/func_date_format.asp) | 用不同的格式显示日期/时间      |
+
+MySQL 使用下列数据类型在数据库中存储日期或日期/时间值：
+
+- DATE - 格式 YYYY-MM-DD
+- DATETIME - 格式: YYYY-MM-DD HH:MM:SS
+- TIMESTAMP - 格式: YYYY-MM-DD HH:MM:SS
+- YEAR - 格式 YYYY 或 YY
+
+
+
+#### SQL NULL
+
+**NULL 值是遗漏的未知数据。**
+
+**默认地，表的列可以存放 NULL 值。**
+
+注释：无法比较 NULL 和 0；它们是不等价的。
+
+无法使用比较运算符来测试 NULL 值，比如 =, <, 或者 <>。
+
+我们必须使用 IS NULL 和 IS NOT NULL 操作符。
+
+微软的 ISNULL() 函数用于规定如何处理 NULL 值。
+
+NVL(), IFNULL() 和 COALESCE() 函数也可以达到相同的结果。
+
+
+
+
+
+## 函数的语法
+
+内建 SQL 函数的语法是：
+
+```
+SELECT function(列) FROM 表
+```
+
+## 合计函数（Aggregate functions）
+
+Aggregate 函数的操作面向一系列的值，并返回一个单一的值。
+
+注释：如果在 SELECT 语句的项目列表中的众多其它表达式中使用 SELECT 语句，则这个 SELECT 必须使用 GROUP BY 语句！
+
+| 函数                                       | 描述                  |
+| ---------------------------------------- | ------------------- |
+| [AVG(column)](http://www.w3school.com.cn/sql/sql_func_avg.asp) | 返回某列的平均值            |
+| [COUNT(column)](http://www.w3school.com.cn/sql/sql_func_count.asp) | 返回某列的行数（不包括 NULL 值） |
+| [COUNT(*)](http://www.w3school.com.cn/sql/sql_func_count_ast.asp) | 返回被选行数              |
+| FIRST(column)                            | 返回在指定的域中第一个记录的值     |
+| LAST(column)                             | 返回在指定的域中最后一个记录的值    |
+| [MAX(column)](http://www.w3school.com.cn/sql/sql_func_max.asp) | 返回某列的最高值            |
+| [MIN(column)](http://www.w3school.com.cn/sql/sql_func_min.asp) | 返回某列的最低值            |
+| STDEV(column)                            |                     |
+| STDEVP(column)                           |                     |
+| [SUM(column)](http://www.w3school.com.cn/sql/sql_func_sum.asp) | 返回某列的总和             |
+| VAR(column)                              |                     |
+| VARP(column)                             |                     |
+
+**合计函数 (比如 SUM) 常常需要添加 GROUP BY 语句。**
+
+#### GROUP BY 语句
+
+GROUP BY 语句用于结合合计函数，根据一个或多个列对结果集进行分组。
+
+##### SQL GROUP BY 语法
+
+```
+SELECT column_name, aggregate_function(column_name)
+FROM table_name
+WHERE column_name operator value
+GROUP BY column_name
+```
+
+#### HAVING 子句
+
+在 SQL 中增加 HAVING 子句原因是，WHERE 关键字无法与合计函数一起使用。
+
+#### SQL HAVING 语法
+
+```
+SELECT column_name, aggregate_function(column_name)
+FROM table_name
+WHERE column_name operator value
+GROUP BY column_name
+HAVING aggregate_function(column_name) operator value
+```
+
+
+
+
+
+
+
+
+
+## Scalar 函数
+
+Scalar 函数的操作面向某个单一的值，并返回基于输入值的一个单一的值。
+
+| 函数                      | 描述                  |
+| ----------------------- | ------------------- |
+| UCASE(c)                | 将某个域转换为大写           |
+| LCASE(c)                | 将某个域转换为小写           |
+| MID(c,start[,end])      | 从某个文本域提取字符          |
+| LEN(c)                  | 返回某个文本域的长度          |
+| INSTR(c,char)           | 返回在某个文本域中指定字符的数值位置  |
+| LEFT(c,number_of_char)  | 返回某个被请求的文本域的左侧部分    |
+| RIGHT(c,number_of_char) | 返回某个被请求的文本域的右侧部分    |
+| ROUND(c,decimals)       | 对某个数值域进行指定小数位数的四舍五入 |
+| MOD(x,y)                | 返回除法操作的余数           |
+| NOW()                   | 返回当前的系统日期           |
+| FORMAT(c,format)        | 改变某个域的显示方式          |
+| DATEDIFF(d,date1,date2) | 用于执行日期计算            |
+
+#### ROUND() 函数
+
+ROUND 函数用于把数值字段舍入为指定的小数位数。
+
+#### SQL ROUND() 语法
+
+```
+SELECT ROUND(column_name,decimals) FROM table_name
+```
+
+| 参数          | 描述             |
+| ----------- | -------------- |
+| column_name | 必需。要舍入的字段。     |
+| decimals    | 必需。规定要返回的小数位数。 |
