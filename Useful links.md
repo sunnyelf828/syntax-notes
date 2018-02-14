@@ -13,3 +13,11 @@ https://www.linkedin.com/pulse/ml-2-shujian-liu/?lipi=urn%3Ali%3Apage%3Ad_flagsh
 
 
 https://www.linkedin.com/pulse/list-data-scientist-interview-question-lists-shujian-liu/
+
+
+
+Computer Vision
+
+Generative adversarial network https://deeplearning4j.org/generative-adversarial-network
+
+Augmented Reality http://www.realitytechnologies.com/augmented-reality
