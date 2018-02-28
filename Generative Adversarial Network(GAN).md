@@ -1,3 +1,5 @@
+
+
 Generative Adversarial Network 生成对抗网络
 
 unsupervised learning, implemented by a system of two [neural networks](https://en.wikipedia.org/wiki/Neural_network) contesting with each other in a [zero-sum game](https://en.wikipedia.org/wiki/Zero-sum_game) framework. They were introduced by [Ian Goodfellow](https://en.wikipedia.org/wiki/Ian_Goodfellow) *et al.* in 2014
@@ -23,6 +25,8 @@ In practice, a known dataset serves as the initial training data for the discrim
 Ref:
 
 [Generative Adversarial Networks](https://arxiv.org/find/stat/1/au:+Bengio_Y/0/1/0/all/0/1)
+
+[MSRA GANs Intro](https://www.msra.cn/zh-cn/news/features/gan-20170511)
 
 [Advantage of GAN](https://zhuanlan.zhihu.com/p/25439613?refer=ml-simple)
 
@@ -56,6 +60,18 @@ Ref:
 - 它很难去学习生成离散的数据,就像文本
 - 相比玻尔兹曼机,GANs很难根据一个像素值去猜测另外一个像素值,GANs天生就是做一件事的,那就是一次产生所有像素, 你可以用BiGAN来修正这个特性,它能让你像使用玻尔兹曼机一样去使用Gibbs采样来猜测缺失值, 
 
+
+
+
+Traing GANs
+
+![GAN training](https://pic1.zhimg.com/v2-be02d5700596557829588c420796cfbf_r.jpg)
+
+
+
+![Loss Func](https://www.msra.cn/wp-content/uploads/news/blogs/2017/05/images/gan-20170511-4.jpg)
+
+![Training workflow](https://www.msra.cn/wp-content/uploads/news/blogs/2017/05/images/gan-20170511-5.jpg)
 
 
 
